@@ -4,11 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
     DcMotorEx leftFront, leftBack, rightBack, rightFront;
     double leftVertControl;
+    double leftHorzControl;
+    double rotate;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -30,20 +33,25 @@ public class TestTeleOp extends LinearOpMode {
         rightBack.setPower(0);
         rightFront.setPower(0);
 
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
         //Uses ticks to run to the position
         //leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //leftBack.setTargetPosition(500); //int value is the ticks
 
         //Uses set power to run the motors AND track the position; Run endlessly with constant velocity
         //Encoder keeps track of the ticks
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setPower(0);
+        //leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         //Only runs on the power assigned and doesn't keep track of ticks
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Completely resets the encoder; used to make sure no encoder is left
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         while(opModeInInit()) {
@@ -54,13 +62,70 @@ public class TestTeleOp extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
-            leftVertControl = -gamepad1.left_stick_y;
-            if(gamepad1.a) {
+
+            leftVertControl = Math.pow(-gamepad1.left_stick_y, 3);
+            leftHorzControl = Math.pow(-gamepad1.left_stick_x, 3);
+            rotate = Math.pow(gamepad1.right_stick_x, 3);
+
+            if (gamepad1.a) {
                 leftFront.setPower(0);
             }
-            if(leftVertControl > 0)
 
-                telemetry.update();
+            clipBotMecanumDrive(leftVertControl, leftHorzControl, rotate, 0.5);
+
+            // DRIVE METHODS
+
+            // sets powers to drive motors
+
+
+            /*
+            //Left vertical control movement (forward and backwards)
+            if(leftVertControl >.1 && ) {
+                leftFront.setPower(leftVertControl);
+                leftBack.setPower(leftVertControl);
+                rightFront.setPower(leftVertControl);
+                rightBack.setPower(leftVertControl);}
+
+            //Left horizontal control movement (side ways)
+            else if(gamepad1.left_stick_x != 0) {
+                leftFront.setPower(rotate);
+                leftBack.setPower(-gamepad1.left_stick_x);
+                rightFront.setPower(-gamepad1.left_stick_x);
+                rightBack.setPower(gamepad1.left_stick_x);}
+
+            //
+            if()
+
+            */
+
+
+            telemetry.addData("leftVertControl:", leftVertControl);
+            telemetry.addData("LeftHorzControl:", leftVertControl);
+            telemetry.addData("rotate:", rotate);
+            telemetry.update();
+        }
+    }
+
+    public void clipBotMecanumDrive ( double vert, double horz, double rotate, double driveSpeed){
+        double frDrive = (vert + horz + rotate);
+        double flDrive = (vert - horz - rotate);
+        double brDrive = (vert - horz + rotate);
+        double blDrive = (vert + horz - rotate);
+
+        // finding maximum drive for division below
+        double max = Math.abs(Math.max(Math.abs(frDrive), Math.max(Math.abs(flDrive), Math.max(Math.abs(brDrive), Math.abs(blDrive)))));
+
+        // power calculations
+        if (Math.abs(vert) > .1 || Math.abs(horz) > .1 || Math.abs(rotate) > .1) {
+            leftFront.setPower(driveSpeed * frDrive / max);
+            leftBack.setPower(driveSpeed * flDrive / max);
+            rightFront.setPower(driveSpeed * brDrive / max);
+            rightBack.setPower(driveSpeed * blDrive / max);
+        } else {
+            leftFront.setPower(0);
+            leftBack.setPower(0);
+            rightFront.setPower(0);
+            rightBack.setPower(0);
         }
     }
 }
