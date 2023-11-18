@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -33,8 +34,8 @@ public class TestTeleOp extends LinearOpMode {
         rightBack.setPower(0);
         rightFront.setPower(0);
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -78,27 +79,6 @@ public class TestTeleOp extends LinearOpMode {
             // sets powers to drive motors
 
 
-            /*
-            //Left vertical control movement (forward and backwards)
-            if(leftVertControl >.1 && ) {
-                leftFront.setPower(leftVertControl);
-                leftBack.setPower(leftVertControl);
-                rightFront.setPower(leftVertControl);
-                rightBack.setPower(leftVertControl);}
-
-            //Left horizontal control movement (side ways)
-            else if(gamepad1.left_stick_x != 0) {
-                leftFront.setPower(rotate);
-                leftBack.setPower(-gamepad1.left_stick_x);
-                rightFront.setPower(-gamepad1.left_stick_x);
-                rightBack.setPower(gamepad1.left_stick_x);}
-
-            //
-            if()
-
-            */
-
-
             telemetry.addData("leftVertControl:", leftVertControl);
             telemetry.addData("LeftHorzControl:", leftVertControl);
             telemetry.addData("rotate:", rotate);
@@ -107,6 +87,9 @@ public class TestTeleOp extends LinearOpMode {
     }
 
     public void clipBotMecanumDrive ( double vert, double horz, double rotate, double driveSpeed){
+        Vector2d input = new Vector2d(vert, horz);
+        input.
+
         double frDrive = (vert + horz + rotate);
         double flDrive = (vert - horz - rotate);
         double brDrive = (vert - horz + rotate);
@@ -117,10 +100,10 @@ public class TestTeleOp extends LinearOpMode {
 
         // power calculations
         if (Math.abs(vert) > .1 || Math.abs(horz) > .1 || Math.abs(rotate) > .1) {
-            leftFront.setPower(driveSpeed * frDrive / max);
-            leftBack.setPower(driveSpeed * flDrive / max);
-            rightFront.setPower(driveSpeed * brDrive / max);
-            rightBack.setPower(driveSpeed * blDrive / max);
+            leftFront.setPower(inputMag * driveSpeed * frDrive / max);
+            leftBack.setPower(inputMag * driveSpeed * flDrive / max);
+            rightFront.setPower(inputMag * driveSpeed * brDrive / max);
+            rightBack.setPower(inputMag * driveSpeed * blDrive / max);
         } else {
             leftFront.setPower(0);
             leftBack.setPower(0);
