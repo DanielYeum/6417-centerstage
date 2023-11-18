@@ -9,18 +9,23 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
-    DcMotorEx leftFront, leftBack, rightBack, rightFront;
+    DcMotorEx leftFront, leftBack, rightBack, rightFront, armRotate, armExtend;
     double leftVertControl;
     double leftHorzControl;
-    double rotate;
+    double rotate, power;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
+        power = 0;
+
         //Define the names on the screen to assign motors to the hub
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
         rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        armRotate = hardwareMap.get(DcMotorEx.class, "armRotate");
+        armExtend = hardwareMap.get(DcMotorEx.class, "armExtend");
 
         //BRAKE and FLOAT
         //When setPower(0),
@@ -28,16 +33,24 @@ public class TestTeleOp extends LinearOpMode {
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        armExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
 
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightBack.setPower(0);
         rightFront.setPower(0);
+        armRotate.setPower(0);
+        armExtend.setPower(0);
 
         leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        armRotate.setDirection(DcMotorSimple.Direction.FORWARD);
+        armExtend.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //Uses ticks to run to the position
         //leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -56,6 +69,7 @@ public class TestTeleOp extends LinearOpMode {
 
 
         while(opModeInInit()) {
+
             telemetry.addData("leftFront power: ", leftFront.getPower());
             telemetry.update();
         }
@@ -79,6 +93,9 @@ public class TestTeleOp extends LinearOpMode {
             // sets powers to drive motors
 
 
+
+
+            //Display
             telemetry.addData("leftVertControl:", leftVertControl);
             telemetry.addData("LeftHorzControl:", leftVertControl);
             telemetry.addData("rotate:", rotate);
@@ -86,9 +103,10 @@ public class TestTeleOp extends LinearOpMode {
         }
     }
 
+    //Calculates for Drivetrain
     public void clipBotMecanumDrive ( double vert, double horz, double rotate, double driveSpeed){
         Vector2d input = new Vector2d(vert, horz);
-        input.
+        double inputMag = Math.sqrt(vert*vert + horz*horz);
 
         double frDrive = (vert + horz + rotate);
         double flDrive = (vert - horz - rotate);
@@ -110,7 +128,7 @@ public class TestTeleOp extends LinearOpMode {
             rightFront.setPower(0);
             rightBack.setPower(0);
 
-            
+
         }
     }
 }
