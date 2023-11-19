@@ -17,14 +17,14 @@ public class ArmRotationTest extends LinearOpMode {
         armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         armRotate.setPower(0);
         power = 0;
-        armRotate.setDirection(DcMotorSimple.Direction.FORWARD);
+        armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
 
         while(opModeIsActive()) {
             power = -gamepad1.left_stick_y;
             armRotate.setPower(power);
 
-            telemetry.addData("Extend power:", power);
+            telemetry.addData("Rotation power:", power);
             telemetry.update();
 
         }
