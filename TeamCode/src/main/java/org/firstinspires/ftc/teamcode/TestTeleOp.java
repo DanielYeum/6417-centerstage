@@ -6,10 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
     DcMotorEx leftFront, leftBack, rightBack, rightFront, armRotate, armExtend;
+
+    Servo grabber;
     double leftVertControl;
     double leftHorzControl;
     double rotate, power;
@@ -26,6 +29,8 @@ public class TestTeleOp extends LinearOpMode {
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
         armRotate = hardwareMap.get(DcMotorEx.class, "armRotate");
         armExtend = hardwareMap.get(DcMotorEx.class, "armExtend");
+
+        grabber = hardwareMap.get(Servo.class, "grabber");
 
         //BRAKE and FLOAT
         //When setPower(0),

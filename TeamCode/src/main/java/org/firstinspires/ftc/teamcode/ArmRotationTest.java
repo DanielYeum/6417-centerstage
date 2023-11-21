@@ -24,6 +24,11 @@ public class ArmRotationTest extends LinearOpMode {
             power = -gamepad1.left_stick_y;
             armRotate.setPower(power);
 
+            if (gamepad1.b) {
+                armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                armRotate.setTargetPosition(500); //int value is the tick value
+            }
+
             telemetry.addData("Rotation power:", power);
             telemetry.update();
 
