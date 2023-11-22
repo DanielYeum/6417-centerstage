@@ -20,54 +20,39 @@ public class ArmRotationTest extends LinearOpMode {
         armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         armRotate.setPower(0);
         power = 0;
-        scorePositionBoolean = false;
-        homePositionBoolean = false;
         armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
         armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRotate.setTargetPosition(0);
         armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         waitForStart();
 
         while(opModeIsActive()) {
             power = -gamepad1.left_stick_y;
             armRotate.setPower(power/2);
-            armRotate.setTargetPosition(10);
+            //armRotate.setTargetPosition(10);
 
             //Home position
-            while(gamepad1.a || homePositionBoolean) {
-                homePositionBoolean = true;
+            if(gamepad1.a) {
                 power = 0.3;
                 armRotate.setPower(power);
-
-                armRotate.setTargetPosition(0); //int value is the tick value
-                if(armRotate.getCurrentPosition() == 0){
-                    homePositionBoolean = false;
+                armRotate.setTargetPosition(10); //int value is the tick value
                 }
             }
 
-
             //Makes the arm parallel to the ground
-            while(gamepad1.left_trigger > 0.1) {
+            if(gamepad1.b) {
                 power = 0.3;
                 armRotate.setPower(power);
                 armRotate.setTargetPosition(655); //int value is the tick value
             }
 
-            }
-
             //Positioning the arm to put pixels on the board
-            while(gamepad1.y || scorePositionBoolean) {
-                scorePositionBoolean = true;
+            if(gamepad1.y) {
                 power = 0.3;
                 armRotate.setPower(power);
                 armRotate.setTargetPosition(800); //int value is the tick value
-                if(armRotate.getCurrentPosition() == 800){
-                    scorePositionBoolean = false;
-                }
 
             }
-
-
-
 
 
             telemetry.addData("Rotation power:", power);
@@ -76,7 +61,6 @@ public class ArmRotationTest extends LinearOpMode {
             telemetry.update();
 
 
-        }
     }
 
 }
