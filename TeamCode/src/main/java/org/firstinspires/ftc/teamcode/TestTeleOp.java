@@ -30,7 +30,7 @@ public class TestTeleOp extends LinearOpMode {
         armRotate = hardwareMap.get(DcMotorEx.class, "armRotate");
         armExtend = hardwareMap.get(DcMotorEx.class, "armExtend");
 
-        grabber = hardwareMap.get(Servo.class, "grabber");
+        //grabber = hardwareMap.get(Servo.class, "grabber");
 
         //BRAKE and FLOAT
         //When setPower(0),
