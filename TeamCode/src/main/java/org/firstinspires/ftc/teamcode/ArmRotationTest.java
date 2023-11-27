@@ -28,26 +28,25 @@ public class ArmRotationTest extends LinearOpMode {
 
         while(opModeIsActive()) {
             power = -gamepad1.left_stick_y;
-            armRotate.setPower(power/2);
+            armRotate.setPower(power / 2);
             //armRotate.setTargetPosition(10);
 
             //Home position
-            if(gamepad1.a) {
+            if (gamepad1.a) { //X button
                 power = 0.3;
                 armRotate.setPower(power);
                 armRotate.setTargetPosition(10); //int value is the tick value
-                }
             }
 
             //Makes the arm parallel to the ground
-            if(gamepad1.b) {
+            if (gamepad1.b) { //circle
                 power = 0.3;
                 armRotate.setPower(power);
                 armRotate.setTargetPosition(655); //int value is the tick value
             }
 
             //Positioning the arm to put pixels on the board
-            if(gamepad1.y) {
+            if (gamepad1.y) { //triangle
                 power = 0.3;
                 armRotate.setPower(power);
                 armRotate.setTargetPosition(800); //int value is the tick value
@@ -60,6 +59,7 @@ public class ArmRotationTest extends LinearOpMode {
             telemetry.addData("gamepad1.b:", gamepad1.b);
             telemetry.update();
 
+        }
 
     }
 

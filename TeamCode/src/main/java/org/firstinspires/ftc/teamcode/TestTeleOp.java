@@ -54,7 +54,7 @@ public class TestTeleOp extends LinearOpMode {
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        armRotate.setDirection(DcMotorSimple.Direction.FORWARD);
+        armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
         armExtend.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //Uses ticks to run to the position
@@ -87,18 +87,13 @@ public class TestTeleOp extends LinearOpMode {
             leftHorzControl = Math.pow(-gamepad1.left_stick_x, 3);
             rotate = Math.pow(gamepad1.right_stick_x, 3);
 
-            if (gamepad1.a) {
-                leftFront.setPower(0);
-            }
+
 
             clipBotMecanumDrive(leftVertControl, leftHorzControl, rotate, 0.5);
 
             // DRIVE METHODS
 
             // sets powers to drive motors
-
-
-
 
             //Display
             telemetry.addData("leftVertControl:", leftVertControl);
@@ -123,10 +118,10 @@ public class TestTeleOp extends LinearOpMode {
 
         // power calculations
         if (Math.abs(vert) > .1 || Math.abs(horz) > .1 || Math.abs(rotate) > .1) {
-            leftFront.setPower(inputMag * driveSpeed * frDrive / max);
-            leftBack.setPower(inputMag * driveSpeed * flDrive / max);
-            rightFront.setPower(inputMag * driveSpeed * brDrive / max);
-            rightBack.setPower(inputMag * driveSpeed * blDrive / max);
+            leftFront.setPower(inputMag * driveSpeed * flDrive / max);
+            leftBack.setPower(inputMag * driveSpeed * blDrive / max);
+            rightFront.setPower(inputMag * driveSpeed * frDrive / max);
+            rightBack.setPower(inputMag * driveSpeed * brDrive / max);
         } else {
             leftFront.setPower(0);
             leftBack.setPower(0);
