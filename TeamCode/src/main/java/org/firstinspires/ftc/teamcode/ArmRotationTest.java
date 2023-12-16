@@ -49,7 +49,7 @@ public class ArmRotationTest extends LinearOpMode {
             if (gamepad1.y) { //triangle
                 power = 0.3;
                 armRotate.setPower(power);
-                armRotate.setTargetPosition(800); //int value is the tick value
+                armRotate.setTargetPosition(2000); //int value is the tick value
 
             }
 
