@@ -25,7 +25,7 @@ public class TestTeleOp extends LinearOpMode {
 
         drivetrain = new Drivetrain(hardwareMap);
 
-//        //Define the names on the screen to assign motors to the hub
+/*        //Define the names on the screen to assign motors to the hub
 //        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
 //        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
 //        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
@@ -74,6 +74,8 @@ public class TestTeleOp extends LinearOpMode {
 
         //Completely resets the encoder; used to make sure no encoder is left
         //leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+*/
 
 
         while(opModeInInit()) {
