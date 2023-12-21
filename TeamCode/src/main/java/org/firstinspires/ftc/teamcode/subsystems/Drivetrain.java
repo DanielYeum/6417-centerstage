@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class Drivetrain extends SampleMecanumDrive {
+    public double drivePower = 0.5;
     public Drivetrain (HardwareMap hardwareMap) {
         super(hardwareMap);
     }
@@ -18,6 +19,6 @@ public class Drivetrain extends SampleMecanumDrive {
         x = output.getX();
         y = output.getY();
 
-        setWeightedDrivePower(new Pose2d(x, y, rotate));
+        setWeightedDrivePower(new Pose2d(x * drivePower, y * drivePower, rotate * drivePower));
     }
 }

@@ -30,6 +30,8 @@ public class ArmExtendTest extends LinearOpMode {
         armExtend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armExtend.setTargetPosition(0);
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
         waitForStart();
 
         while(opModeIsActive()) {

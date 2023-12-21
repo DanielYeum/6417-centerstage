@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,9 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.subsystems.Arm;
+import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
-    DcMotorEx leftFront, leftBack, rightBack, rightFront, armRotate, armExtend;
+    Arm arm;
     Drivetrain drivetrain;
 
     Servo grabber;
@@ -24,6 +26,11 @@ public class TestTeleOp extends LinearOpMode {
         power = 0;
 
         drivetrain = new Drivetrain(hardwareMap);
+        arm = new Arm(hardwareMap);
+
+        arm.init();
+
+
 
 /*        //Define the names on the screen to assign motors to the hub
 //        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
@@ -89,21 +96,42 @@ public class TestTeleOp extends LinearOpMode {
         while(opModeIsActive()) {
 
             leftVertControl = Math.pow(-gamepad1.left_stick_y, 3);
-            leftHorzControl = Math.pow(-gamepad1.left_stick_x, 3);
+            leftHorzControl = Math.pow(gamepad1.left_stick_x, 3);
             rotate = Math.pow(-gamepad1.right_stick_x, 3);
 
+            if(gamepad1.left_bumper) {
+                drivetrain.drivePower = 0.3;
+            } else {
+                drivetrain.drivePower = 0.4;
+            }
 
             drivetrain.drive(leftHorzControl, leftVertControl, rotate);
 //            clipBotMecanumDrive(leftHorzControl, leftVertControl, rotate, 0.5);
 
             // DRIVE METHODS
+            if (gamepad1.a) { //X button
+                arm.autoArmRotate(0.5, 0);
+            }
 
+            //Makes the arm parallel to the ground
+            if (gamepad1.b) { //circle
+                arm.autoArmRotate(0.5, 600);
+            }
+
+            //Positioning the arm to put pixels on the board
+            if (gamepad1.y) { //triangle
+                arm.autoArmRotate(0.5, 1500);
+            }
             // sets powers to drive motors
 
             //Display
+
+            arm.telemetry(telemetry);
             telemetry.addData("leftVertControl:", leftVertControl);
             telemetry.addData("LeftHorzControl:", leftVertControl);
             telemetry.addData("rotate:", rotate);
+            telemetry.addData("Rotation power:", power);
+            telemetry.addData("gamepad1.b:", gamepad1.b);
             telemetry.update();
         }
     }

@@ -50,7 +50,6 @@ public class ArmRotationTest extends LinearOpMode {
                 power = 0.3;
                 armRotate.setPower(power);
                 armRotate.setTargetPosition(2000); //int value is the tick value
-
             }
 
 
