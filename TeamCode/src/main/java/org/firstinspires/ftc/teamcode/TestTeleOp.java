@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
+import org.firstinspires.ftc.teamcode.subsystems.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
@@ -29,9 +29,6 @@ public class TestTeleOp extends LinearOpMode {
         arm = new Arm(hardwareMap);
 
         arm.init();
-
-
-
 /*        //Define the names on the screen to assign motors to the hub
 //        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
 //        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
@@ -84,7 +81,6 @@ public class TestTeleOp extends LinearOpMode {
 
 */
 
-
         while(opModeInInit()) {
 
             //telemetry.addData("leftFront power: ", leftFront.getPower());
@@ -100,9 +96,9 @@ public class TestTeleOp extends LinearOpMode {
             rotate = Math.pow(-gamepad1.right_stick_x, 3);
 
             if(gamepad1.left_bumper) {
-                drivetrain.drivePower = 0.3;
+                Drivetrain.setDrivePower(Constants.drivePower);
             } else {
-                drivetrain.drivePower = 0.4;
+                Drivetrain.setDrivePower(Constants.slowDrivePower);
             }
 
             drivetrain.drive(leftHorzControl, leftVertControl, rotate);
@@ -110,17 +106,17 @@ public class TestTeleOp extends LinearOpMode {
 
             // DRIVE METHODS
             if (gamepad1.a) { //X button
-                arm.autoArmRotate(0.5, 0);
+                arm.autoArmRotate(Constants.armPower, 0);
             }
 
             //Makes the arm parallel to the ground
             if (gamepad1.b) { //circle
-                arm.autoArmRotate(0.5, 600);
+                arm.autoArmRotate(Constants.armPower, 600);
             }
 
             //Positioning the arm to put pixels on the board
             if (gamepad1.y) { //triangle
-                arm.autoArmRotate(0.5, 1500);
+                arm.autoArmRotate(Constants.armPower, 1500);
             }
             // sets powers to drive motors
 
