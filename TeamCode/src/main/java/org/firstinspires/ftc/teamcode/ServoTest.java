@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.ServoControllerEx;
 @Config
 @TeleOp(name = "servo test", group = "TeleOp")
 public class ServoTest extends LinearOpMode {
-    public static double position = 0.5;
+    public static double position = 0.4;
     public static String name = "wrist";
     @Override
     public void runOpMode() throws InterruptedException {
@@ -18,8 +18,9 @@ public class ServoTest extends LinearOpMode {
         ServoControllerEx controller = (ServoControllerEx) test.getController();
         controller.setServoPwmDisable(test.getPortNumber());
         waitForStart();
+
         while(opModeIsActive()) {
-            if(gamepad1.a) {
+            if(gamepad1.a) { //X button
                 controller.setServoPwmEnable(test.getPortNumber());
                 test.setPosition(position);
             } else {

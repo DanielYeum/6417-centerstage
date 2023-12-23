@@ -23,8 +23,4 @@ public class Drivetrain extends SampleMecanumDrive {
 
         setWeightedDrivePower(new Pose2d(x * drivePower, y * drivePower, rotate * drivePower));
     }
-
-    public static void setDrivePower(double power) {
-        drivePower = power;
-    }
 }

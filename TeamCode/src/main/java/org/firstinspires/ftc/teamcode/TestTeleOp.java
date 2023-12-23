@@ -2,20 +2,23 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoControllerEx;
+
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
-import org.firstinspires.ftc.teamcode.subsystems.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.Grabber;
+import org.firstinspires.ftc.teamcode.subsystems.Wrist;
+
 
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
     Arm arm;
     Drivetrain drivetrain;
+    Grabber leftGrabber;
+    Grabber rightGrabber;
+    Wrist wrist;
 
-    Servo grabber;
     double leftVertControl;
     double leftHorzControl;
     double rotate, power;
@@ -27,8 +30,16 @@ public class TestTeleOp extends LinearOpMode {
 
         drivetrain = new Drivetrain(hardwareMap);
         arm = new Arm(hardwareMap);
+        leftGrabber = new Grabber(hardwareMap);
+        rightGrabber = new Grabber(hardwareMap);
+        wrist = new Wrist(hardwareMap);
 
         arm.init();
+        leftGrabber.init();
+        rightGrabber.init();
+
+        wrist.init();
+
 /*        //Define the names on the screen to assign motors to the hub
 //        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
 //        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
@@ -80,13 +91,9 @@ public class TestTeleOp extends LinearOpMode {
         //leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 */
-
         while(opModeInInit()) {
-
-            //telemetry.addData("leftFront power: ", leftFront.getPower());
             telemetry.update();
         }
-
         waitForStart();
 
         while(opModeIsActive()) {
@@ -96,35 +103,51 @@ public class TestTeleOp extends LinearOpMode {
             rotate = Math.pow(-gamepad1.right_stick_x, 3);
 
             if(gamepad1.left_bumper) {
-                Drivetrain.setDrivePower(Constants.drivePower);
+                Drivetrain.drivePower = 0.3;
             } else {
-                Drivetrain.setDrivePower(Constants.slowDrivePower);
+                Drivetrain.drivePower = 0.5;
             }
 
             drivetrain.drive(leftHorzControl, leftVertControl, rotate);
 //            clipBotMecanumDrive(leftHorzControl, leftVertControl, rotate, 0.5);
 
             // DRIVE METHODS
+            //home position
             if (gamepad1.a) { //X button
-                arm.autoArmRotate(Constants.armPower, 0);
+                arm.autoArmRotate(0.3, 40);
+                wrist.wristSetPos(0.6);
             }
 
             //Makes the arm parallel to the ground
             if (gamepad1.b) { //circle
-                arm.autoArmRotate(Constants.armPower, 600);
+                arm.autoArmRotate(0.3, 600);
             }
 
             //Positioning the arm to put pixels on the board
             if (gamepad1.y) { //triangle
-                arm.autoArmRotate(Constants.armPower, 1500);
-            }
-            // sets powers to drive motors
+                arm.autoArmRotate(0.3, 1600);
+                wrist.wristSetPos(0.25);
 
-            //Display
+            }
+            //the grabbers are closed until the buttons are pushed
+            //Doesn't work currently
+            if (gamepad1.left_bumper) {
+                rightGrabber.leftGrabberSetPos(0.3);
+            }
+            else {
+                rightGrabber.leftGrabberSetPos(0.6);
+            }
+
+            //Doesn't work currently
+            if (gamepad1.right_trigger > 0.2){
+                leftGrabber.rightGrabberSetPos(0.5);
+            }
+
 
             arm.telemetry(telemetry);
             telemetry.addData("leftVertControl:", leftVertControl);
             telemetry.addData("LeftHorzControl:", leftVertControl);
+            telemetry.addData("left_trigger", gamepad1.left_trigger);
             telemetry.addData("rotate:", rotate);
             telemetry.addData("Rotation power:", power);
             telemetry.addData("gamepad1.b:", gamepad1.b);
