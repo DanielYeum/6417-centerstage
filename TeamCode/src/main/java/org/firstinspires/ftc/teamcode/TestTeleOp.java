@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -22,6 +23,9 @@ public class TestTeleOp extends LinearOpMode {
     double leftVertControl;
     double leftHorzControl;
     double rotate, power;
+
+    public static double testValue = 0.68;
+
 
 
     @Override
@@ -103,7 +107,8 @@ public class TestTeleOp extends LinearOpMode {
 
             if(gamepad1.right_trigger > 0.4) {
                 Drivetrain.drivePower = 0.3;
-            } else {
+            }
+            else {
                 Drivetrain.drivePower = 0.5;
             }
 
@@ -113,8 +118,8 @@ public class TestTeleOp extends LinearOpMode {
             // DRIVE METHODS
             //home position
             if (gamepad2.a) { //X button
-                arm.autoArmRotate(0.15, 40);
-                wrist.wristSetPos(0.68);
+                arm.autoArmRotate(0.15, 30);
+                wrist.wristSetPos(testValue); //0.68
             }
 
             //Makes the arm parallel to the ground
@@ -125,17 +130,17 @@ public class TestTeleOp extends LinearOpMode {
             //Positioning the arm to put pixels on the board
             if (gamepad2.y) { //triangle
                 arm.autoArmRotate(0.3, 1600);
-                wrist.wristSetPos(0.25);
+                wrist.wristSetPos(testValue); //0.25
 
             }
             //the grabbers are closed until the buttons are pushed
             if (gamepad2.left_bumper) {
-                leftGrabber.leftGrabberSetPos(0.3);
-            }
-            else {
                 leftGrabber.leftGrabberSetPos(0.6);
             }
-            
+            else {
+                leftGrabber.leftGrabberSetPos(0.4);
+            }
+
             if (gamepad2.right_bumper) {
                 rightGrabber.leftGrabberSetPos(0.3);
             }
@@ -149,6 +154,7 @@ public class TestTeleOp extends LinearOpMode {
             telemetry.addData("left_trigger", gamepad1.left_trigger);
             telemetry.addData("Rotation power:", power);
             telemetry.addData("gamepad1.b:", gamepad1.b);
+            telemetry.addData("Testing value:", testValue);
             telemetry.update();
         }
     }

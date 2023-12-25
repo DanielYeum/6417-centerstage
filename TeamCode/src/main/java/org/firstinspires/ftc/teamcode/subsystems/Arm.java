@@ -21,14 +21,14 @@ public class Arm {
         armRotate.setPower(0);
         armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
         armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armRotate.setTargetPosition(0);
+        armRotate.setTargetPosition(50);
         armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         armExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         armExtend.setPower(0);
         armExtend.setDirection(DcMotorSimple.Direction.REVERSE);
         armExtend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armExtend.setTargetPosition(0);
+        armExtend.setTargetPosition(30);
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
