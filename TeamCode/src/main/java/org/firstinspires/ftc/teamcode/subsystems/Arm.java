@@ -23,15 +23,26 @@ public class Arm {
         armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armRotate.setTargetPosition(0);
         armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        armExtend.setPower(0);
+        armExtend.setDirection(DcMotorSimple.Direction.REVERSE);
+        armExtend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armExtend.setTargetPosition(0);
+        armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void autoArmRotate(double power, int targetPos) {
         armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         armRotate.setPower(power);
         armRotate.setTargetPosition(targetPos);
     }
 
+    public void autoArmExtend(double power, int targetPos) {
+        armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armExtend.setPower(power);
+        armExtend.setTargetPosition(targetPos);
+    }
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("arm rotate current pos", armRotate.getCurrentPosition());
     }

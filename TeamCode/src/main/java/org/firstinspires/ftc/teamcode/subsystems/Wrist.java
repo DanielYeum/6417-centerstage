@@ -10,6 +10,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Wrist {
 
     private Servo wrist;
+    private ServoControllerEx wristController;
+
 
     public Wrist(HardwareMap hardwareMap) {
         wrist = hardwareMap.get(Servo.class, "wrist"); //1 -> down
@@ -17,11 +19,12 @@ public class Wrist {
 
     }
     public void init() {
-        ServoControllerEx wristController = (ServoControllerEx) wrist.getController();
+        wristController = (ServoControllerEx) wrist.getController();
         wristController.setServoPwmDisable(wrist.getPortNumber());
     }
 
     public void wristSetPos(double pos){
+        wristController.setServoPwmEnable(wrist.getPortNumber());
         wrist.setPosition(pos);
     }
     public void telemetry(Telemetry telemetry) {

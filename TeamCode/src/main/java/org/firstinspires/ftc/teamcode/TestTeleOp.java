@@ -37,7 +37,6 @@ public class TestTeleOp extends LinearOpMode {
         arm.init();
         leftGrabber.init();
         rightGrabber.init();
-
         wrist.init();
 
 /*        //Define the names on the screen to assign motors to the hub
@@ -102,53 +101,52 @@ public class TestTeleOp extends LinearOpMode {
             leftHorzControl = Math.pow(gamepad1.left_stick_x, 3);
             rotate = Math.pow(-gamepad1.right_stick_x, 3);
 
-            if(gamepad1.left_bumper) {
+            if(gamepad1.right_trigger > 0.4) {
                 Drivetrain.drivePower = 0.3;
             } else {
                 Drivetrain.drivePower = 0.5;
             }
 
             drivetrain.drive(leftHorzControl, leftVertControl, rotate);
-//            clipBotMecanumDrive(leftHorzControl, leftVertControl, rotate, 0.5);
+
 
             // DRIVE METHODS
             //home position
-            if (gamepad1.a) { //X button
-                arm.autoArmRotate(0.3, 40);
-                wrist.wristSetPos(0.6);
+            if (gamepad2.a) { //X button
+                arm.autoArmRotate(0.15, 40);
+                wrist.wristSetPos(0.68);
             }
 
             //Makes the arm parallel to the ground
-            if (gamepad1.b) { //circle
+            if (gamepad2.b) { //circle
                 arm.autoArmRotate(0.3, 600);
             }
 
             //Positioning the arm to put pixels on the board
-            if (gamepad1.y) { //triangle
+            if (gamepad2.y) { //triangle
                 arm.autoArmRotate(0.3, 1600);
                 wrist.wristSetPos(0.25);
 
             }
             //the grabbers are closed until the buttons are pushed
-            //Doesn't work currently
-            if (gamepad1.left_bumper) {
+            if (gamepad2.left_bumper) {
+                leftGrabber.leftGrabberSetPos(0.3);
+            }
+            else {
+                leftGrabber.leftGrabberSetPos(0.6);
+            }
+            
+            if (gamepad2.right_bumper) {
                 rightGrabber.leftGrabberSetPos(0.3);
             }
             else {
                 rightGrabber.leftGrabberSetPos(0.6);
             }
 
-            //Doesn't work currently
-            if (gamepad1.right_trigger > 0.2){
-                leftGrabber.rightGrabberSetPos(0.5);
-            }
 
 
             arm.telemetry(telemetry);
-            telemetry.addData("leftVertControl:", leftVertControl);
-            telemetry.addData("LeftHorzControl:", leftVertControl);
             telemetry.addData("left_trigger", gamepad1.left_trigger);
-            telemetry.addData("rotate:", rotate);
             telemetry.addData("Rotation power:", power);
             telemetry.addData("gamepad1.b:", gamepad1.b);
             telemetry.update();
