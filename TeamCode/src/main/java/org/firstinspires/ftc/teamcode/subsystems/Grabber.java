@@ -12,6 +12,8 @@ public class Grabber {
 
     private Servo leftGrabber;
     private Servo rightGrabber;
+    private ServoControllerEx leftController;
+    private ServoControllerEx rightController;
 
     public Grabber(HardwareMap hardwareMap) {
         leftGrabber = hardwareMap.get(Servo.class, "leftGrabber"); //1 -> open; 0.8 -> closes
@@ -20,16 +22,18 @@ public class Grabber {
     }
 
     public void init() {
-        ServoControllerEx leftController = (ServoControllerEx) leftGrabber.getController();
-        ServoControllerEx rightController = (ServoControllerEx) rightGrabber.getController();
+        leftController = (ServoControllerEx) leftGrabber.getController();
+        rightController = (ServoControllerEx) rightGrabber.getController();
         leftController.setServoPwmDisable(leftGrabber.getPortNumber());
         rightController.setServoPwmDisable(rightGrabber.getPortNumber());
     }
 
     public void leftGrabberSetPos(double pos){
+        leftController.setServoPwmEnable(leftGrabber.getPortNumber()); // enables servo before set position
         leftGrabber.setPosition(pos);
     }
     public void rightGrabberSetPos(double pos){
+        rightController.setServoPwmEnable(rightGrabber.getPortNumber()); // enables the servo before set position
         rightGrabber.setPosition(pos);
     }
 
