@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -33,12 +37,13 @@ public class Arm {
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         armRotate.setTargetPosition(50);
-        /*try {
-            wait(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        armExtend.setTargetPosition(3500);
+        CommandScheduler.getInstance().schedule(
+                new SequentialCommandGroup(
+                        new WaitCommand(1000),
+                        new InstantCommand(() -> armExtend.setTargetPosition(3500))
+                )
+        );
+
     }
 
     public void autoArmRotate(double power, int targetPos) {
