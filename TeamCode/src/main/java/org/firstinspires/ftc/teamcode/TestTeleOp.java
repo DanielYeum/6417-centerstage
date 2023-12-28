@@ -65,15 +65,21 @@ public class TestTeleOp extends LinearOpMode {
 
 
             // DRIVE METHODS
-            //home position
+
+            //Intake position
+            if(gamepad1.x) { //square
+                wrist.wristSetPos(0.71); //ground level
+                arm.autoArmRotate(0.2, 0);
+
+            //home position with wrist up
             if (gamepad2.a) { //X button
-                arm.autoArmRotate(0.15, 10);
+                arm.autoArmRotate(0.15, 30);
                 wrist.wristSetPos(0.25);
             }
 
             //Makes the arm parallel to the ground
             if (gamepad2.b) { //circle
-                arm.autoArmRotate(0.3, 600);
+                arm.autoArmRotate(0.3, 700);
                 wrist.wristSetPos(0.25);
             }
 
@@ -98,10 +104,18 @@ public class TestTeleOp extends LinearOpMode {
                 rightGrabber.rightGrabberSetPos(0.4);
             }
 
-            //Hang
-            if(gamepad1.x) { //square
-                wrist.wristSetPos(0.71); //ground level
             }
+
+            //Hang
+            if(gamepad1.y) { //triangle
+                wrist.wristSetPos(0.25);
+                arm.autoArmRotate(0.15, 30);
+                arm.autoArmExtend(0.6, 2000);
+            }
+            if (gamepad1.b) { //circle
+                arm.autoArmExtend(0.3, 1000);
+            }
+
 
             arm.telemetry(telemetry);
             telemetry.addData("left_trigger", gamepad1.left_trigger);
