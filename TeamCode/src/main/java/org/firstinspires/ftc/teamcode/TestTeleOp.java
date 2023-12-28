@@ -36,62 +36,12 @@ public class TestTeleOp extends LinearOpMode {
         rightGrabber = new Grabber(hardwareMap);
         wrist = new Wrist(hardwareMap);
 
-        arm.init();
         leftGrabber.init();
         rightGrabber.init();
         wrist.init();
-
-/*        //Define the names on the screen to assign motors to the hub
-//        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-//        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-//        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-//        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-//        armRotate = hardwareMap.get(DcMotorEx.class, "armRotate");
-//        armExtend = hardwareMap.get(DcMotorEx.class, "armExtend");
-//
-//        //grabber = hardwareMap.get(Servo.class, "grabber");
-//
-//        //BRAKE and FLOAT
-//        //When setPower(0),
-//        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//        armExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//
-//
-//        leftFront.setPower(0);
-//        leftBack.setPower(0);
-//        rightBack.setPower(0);
-//        rightFront.setPower(0);
-//        armRotate.setPower(0);
-//        armExtend.setPower(0);
-//
-//        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
-//        leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
-//        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
-//        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
-//
-//        armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
-//        armExtend.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        //Uses ticks to run to the position
-        //leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //leftBack.setTargetPosition(500); //int value is the ticks
-
-        //Uses set power to run the motors AND track the position; Run endlessly with constant velocity
-        //Encoder keeps track of the ticks
-        //leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.init();
 
 
-        //Only runs on the power assigned and doesn't keep track of ticks
-        //leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        //Completely resets the encoder; used to make sure no encoder is left
-        //leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-*/
         while(opModeInInit()) {
             telemetry.update();
         }

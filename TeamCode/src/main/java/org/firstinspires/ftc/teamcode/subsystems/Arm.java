@@ -33,10 +33,12 @@ public class Arm {
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         armRotate.setTargetPosition(50);
-            if(armRotate.getCurrentPosition() == 30){
+        try {
+            wait(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         armExtend.setTargetPosition(3500);
-            }
-
     }
 
     public void autoArmRotate(double power, int targetPos) {
