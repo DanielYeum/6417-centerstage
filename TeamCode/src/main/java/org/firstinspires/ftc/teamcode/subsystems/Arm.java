@@ -11,6 +11,7 @@ public class Arm {
     private DcMotorEx armExtend;
     private DcMotorEx armRotate;
 
+
     public Arm(HardwareMap hardwareMap) {
         armExtend = hardwareMap.get(DcMotorEx.class, "armExtend");
         armRotate = hardwareMap.get(DcMotorEx.class, "armRotate");
@@ -21,15 +22,21 @@ public class Arm {
         armRotate.setPower(0);
         armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
         armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armRotate.setTargetPosition(50);
+        armRotate.setTargetPosition(0);
         armRotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         armExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         armExtend.setPower(0);
-        armExtend.setDirection(DcMotorSimple.Direction.REVERSE);
+        armExtend.setDirection(DcMotorSimple.Direction.FORWARD);
         armExtend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armExtend.setTargetPosition(30);
+        armExtend.setTargetPosition(0);
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armRotate.setTargetPosition(50);
+            if(armRotate.getCurrentPosition() == 30){
+        armExtend.setTargetPosition(3500);
+            }
+
     }
 
     public void autoArmRotate(double power, int targetPos) {

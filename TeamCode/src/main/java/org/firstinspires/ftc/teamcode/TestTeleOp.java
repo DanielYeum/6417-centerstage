@@ -24,8 +24,6 @@ public class TestTeleOp extends LinearOpMode {
     double leftHorzControl;
     double rotate, power;
 
-    public static double testValue = 0.68;
-
 
 
     @Override
@@ -97,6 +95,7 @@ public class TestTeleOp extends LinearOpMode {
         while(opModeInInit()) {
             telemetry.update();
         }
+
         waitForStart();
 
         while(opModeIsActive()) {
@@ -109,7 +108,7 @@ public class TestTeleOp extends LinearOpMode {
                 Drivetrain.drivePower = 0.3;
             }
             else {
-                Drivetrain.drivePower = 0.5;
+                Drivetrain.drivePower = 0.6;
             }
 
             drivetrain.drive(leftHorzControl, leftVertControl, rotate);
@@ -118,43 +117,46 @@ public class TestTeleOp extends LinearOpMode {
             // DRIVE METHODS
             //home position
             if (gamepad2.a) { //X button
-                arm.autoArmRotate(0.15, 30);
-                wrist.wristSetPos(testValue); //0.68
+                arm.autoArmRotate(0.15, 10);
+                wrist.wristSetPos(0.25);
             }
 
             //Makes the arm parallel to the ground
             if (gamepad2.b) { //circle
                 arm.autoArmRotate(0.3, 600);
+                wrist.wristSetPos(0.25);
             }
 
             //Positioning the arm to put pixels on the board
             if (gamepad2.y) { //triangle
                 arm.autoArmRotate(0.3, 1600);
-                wrist.wristSetPos(testValue); //0.25
+                wrist.wristSetPos(0.25);
 
             }
             //the grabbers are closed until the buttons are pushed
             if (gamepad2.left_bumper) {
-                leftGrabber.leftGrabberSetPos(0.6);
+                leftGrabber.leftGrabberSetPos(1);
             }
             else {
-                leftGrabber.leftGrabberSetPos(0.4);
+                leftGrabber.leftGrabberSetPos(0.8);
             }
 
             if (gamepad2.right_bumper) {
-                rightGrabber.leftGrabberSetPos(0.3);
+                rightGrabber.rightGrabberSetPos(0.3);
             }
             else {
-                rightGrabber.leftGrabberSetPos(0.6);
+                rightGrabber.rightGrabberSetPos(0.4);
             }
 
-
+            //Hang
+            if(gamepad1.x) { //square
+                wrist.wristSetPos(0.71); //ground level
+            }
 
             arm.telemetry(telemetry);
             telemetry.addData("left_trigger", gamepad1.left_trigger);
             telemetry.addData("Rotation power:", power);
             telemetry.addData("gamepad1.b:", gamepad1.b);
-            telemetry.addData("Testing value:", testValue);
             telemetry.update();
         }
     }

@@ -1,17 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+@Config
 @TeleOp(name = "arm rotation test", group = "TeleOp")
 public class ArmRotationTest extends LinearOpMode {
 
     DcMotorEx armRotate;
     boolean scorePositionBoolean;
     boolean homePositionBoolean;
+    public static int position = 40;
+
 
     double power;
     public void runOpMode() throws InterruptedException {
@@ -35,14 +39,14 @@ public class ArmRotationTest extends LinearOpMode {
             if (gamepad1.a) { //X button
                 power = 0.3;
                 armRotate.setPower(power);
-                armRotate.setTargetPosition(10); //int value is the tick value
+                armRotate.setTargetPosition(0); //int value is the tick value
             }
 
             //Makes the arm parallel to the ground
             if (gamepad1.b) { //circle
                 power = 0.3;
                 armRotate.setPower(power);
-                armRotate.setTargetPosition(655); //int value is the tick value
+                armRotate.setTargetPosition(position); //int value is the tick value
             }
 
             //Positioning the arm to put pixels on the board
