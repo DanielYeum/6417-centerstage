@@ -3,11 +3,12 @@ package org.firstinspires.ftc.teamcode.vision;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.states.Alliance;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
-/*
+
 public class CVMaster {
     private Alliance alliance = Alliance.BLUE;
     private OpenCvWebcam webcam;
@@ -22,14 +23,14 @@ public class CVMaster {
     }
 
     public void detectProp() {
-        pipeline = new PropDetectionPipeline(1280, 720, alliance);
+        pipeline = new PropDetectionPipeline(640, 360, alliance);
         webcam.setPipeline(pipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -51,4 +52,3 @@ public class CVMaster {
     }
 }
 
- */

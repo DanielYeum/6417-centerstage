@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.vision;
 
 import com.acmerobotics.dashboard.config.Config;
 
+import org.firstinspires.ftc.teamcode.states.Alliance;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -10,7 +11,7 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
-/*
+
 @Config
 public class PropDetectionPipeline extends OpenCvPipeline {
     private Alliance alliance;
@@ -28,9 +29,9 @@ public class PropDetectionPipeline extends OpenCvPipeline {
     public static double redHighH1 = 20;
     public static double redLowH2 = 150;
     public static double redHighH2 = 180;
-    private static Rect rect0 = getRect(rect0x, rect0y, 100, 100, 1280, 720);
-    private static Rect rect1 = getRect(rect1x, rect1y, 100, 100, 1280, 720);
-    private static Rect rect2 = getRect(rect2x, rect2y, 100, 100, 1280, 720);
+    private static Rect rect0 = getRect(rect0x, rect0y, 50, 50, 640, 360);
+    private static Rect rect1 = getRect(rect1x, rect1y, 50, 50, 640, 360);
+    private static Rect rect2 = getRect(rect2x, rect2y, 50, 50, 640, 360);
     private Mat subMat0, subMat1, subMat2;
     public double average0, average1, average2;
     private double max;
@@ -50,7 +51,9 @@ public class PropDetectionPipeline extends OpenCvPipeline {
     public Mat processFrame(Mat input) {
         Mat mat = new Mat();
 
+        //mat turns into HSV values
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
+
         if(mat.empty()) {
             return input;
         }
@@ -74,7 +77,7 @@ public class PropDetectionPipeline extends OpenCvPipeline {
             Mat thresh1 = new Mat();
             Mat thresh2 = new Mat();
 
-
+            //gets a black and white image of the team element color
             Core.inRange(mat, lower2, upper2, thresh2);
             Core.inRange(mat, lower1, upper1, thresh1);
 
@@ -158,4 +161,3 @@ public class PropDetectionPipeline extends OpenCvPipeline {
     }
 }
 
- */

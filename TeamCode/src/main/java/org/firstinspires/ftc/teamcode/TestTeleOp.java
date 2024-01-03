@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
@@ -12,8 +10,12 @@ import org.firstinspires.ftc.teamcode.subsystems.Grabber;
 import org.firstinspires.ftc.teamcode.subsystems.Wrist;
 
 
+@Config
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
+    public static int armRotateOuttakePos = 1400;
+    public static double wristOuttakePos = 0;
+
     Arm arm;
     Drivetrain drivetrain;
     Grabber leftGrabber;
@@ -68,59 +70,60 @@ public class TestTeleOp extends LinearOpMode {
 
             //Intake position
             if(gamepad1.x) { //square
-                wrist.wristSetPos(0.71); //ground level
-                arm.autoArmRotate(0.2, 0);
+                wrist.wristSetPos(0.5); //ground level
+                arm.armRotateTargetPos = 0;
+            }
 
             //home position with wrist up
             if (gamepad2.a) { //X button
-                arm.autoArmRotate(0.15, 30);
-                wrist.wristSetPos(0.25);
+                arm.armRotateTargetPos = 200;
+                wrist.wristSetPos(0.1);
             }
 
             //Makes the arm parallel to the ground
             if (gamepad2.b) { //circle
-                arm.autoArmRotate(0.3, 700);
-                wrist.wristSetPos(0.25);
+                arm.armRotateTargetPos = 700;
+                wrist.wristSetPos(0.1);
             }
 
             //Positioning the arm to put pixels on the board
             if (gamepad2.y) { //triangle
-                arm.autoArmRotate(0.3, 1600);
-                wrist.wristSetPos(0.25);
+                arm.armRotateTargetPos = armRotateOuttakePos;
+                wrist.wristSetPos(wristOuttakePos);
 
             }
             //the grabbers are closed until the buttons are pushed
             if (gamepad2.left_bumper) {
-                leftGrabber.leftGrabberSetPos(1);
+                leftGrabber.leftGrabberSetPos(0.75);
             }
             else {
-                leftGrabber.leftGrabberSetPos(0.8);
+                leftGrabber.leftGrabberSetPos(0.58); //closed
             }
 
             if (gamepad2.right_bumper) {
-                rightGrabber.rightGrabberSetPos(0.3);
+                rightGrabber.rightGrabberSetPos(0.18);
             }
             else {
-                rightGrabber.rightGrabberSetPos(0.4);
-            }
-
+                rightGrabber.rightGrabberSetPos(0.35);
             }
 
             //Hang
             if(gamepad1.y) { //triangle
                 wrist.wristSetPos(0.25);
-                arm.autoArmRotate(0.15, 30);
-                arm.autoArmExtend(0.6, 2000);
+                arm.armRotateTargetPos = 1300;
+                arm.autoArmExtend(0.6, 500);
             }
             if (gamepad1.b) { //circle
-                arm.autoArmExtend(0.3, 1000);
+                arm.autoArmExtend(0.3, 0);
             }
 
+            arm.update();
 
             arm.telemetry(telemetry);
             telemetry.addData("left_trigger", gamepad1.left_trigger);
             telemetry.addData("Rotation power:", power);
             telemetry.addData("gamepad1.b:", gamepad1.b);
+            telemetry.addData("gamepad2.y:", gamepad2.y);
             telemetry.update();
         }
     }
