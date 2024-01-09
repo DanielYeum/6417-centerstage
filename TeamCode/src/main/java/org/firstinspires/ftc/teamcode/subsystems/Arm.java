@@ -83,7 +83,13 @@ public class Arm {
         armRotate.setPower(power);
     }
 
+    public void setArmExtendPower(double power) {
+        armExtend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armExtend.setPower(power);
+    }
+
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("arm rotate current pos", armRotate.getCurrentPosition());
+        telemetry.addData("arm extend current pos", armExtend.getCurrentPosition());
     }
 }

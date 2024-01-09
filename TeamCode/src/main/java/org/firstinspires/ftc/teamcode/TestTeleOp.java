@@ -15,6 +15,9 @@ import org.firstinspires.ftc.teamcode.subsystems.Wrist;
 public class TestTeleOp extends LinearOpMode {
     public static int armRotateOuttakePos = 1400;
     public static double wristOuttakePos = 0;
+    public static int hangUp = 1400;
+    public static int hangDown = 1400;
+
 
     Arm arm;
     Drivetrain drivetrain;
@@ -111,10 +114,16 @@ public class TestTeleOp extends LinearOpMode {
             if(gamepad1.y) { //triangle
                 wrist.wristSetPos(0.25);
                 arm.armRotateTargetPos = 1300;
-                arm.autoArmExtend(0.6, 500);
+                arm.autoArmExtend(0.6, hangUp);
             }
             if (gamepad1.b) { //circle
-                arm.autoArmExtend(0.3, 0);
+                arm.autoArmExtend(0.3, hangDown);
+            }
+
+            if(Math.abs(gamepad2.left_stick_y) > 0.1) {
+                arm.setArmExtendPower(-gamepad2.left_stick_y);
+            } else {
+                arm.setArmExtendPower(0);
             }
 
             arm.update();
