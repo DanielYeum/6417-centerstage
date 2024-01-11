@@ -118,11 +118,21 @@ public class TestTeleOp extends LinearOpMode {
             }
             if (gamepad1.b) { //circle
                 arm.autoArmExtend(0.3, hangDown);
+                arm.armRotateTargetPos = 1000;
+                // EXTEND ENCODER NOT WORKING
+//                arm.autoArmExtend(0.6, 350);
+            }
+            if (gamepad1.b) { //circle
+                // EXTEND ENCODER NOT WORKING
+//                arm.autoArmExtend(0.6, 0);
             }
 
+            // MANUAL EXTENSION
             if(Math.abs(gamepad2.left_stick_y) > 0.1) {
+                // if joystick is being used, set extend power to joystick y
                 arm.setArmExtendPower(-gamepad2.left_stick_y);
             } else {
+                // otherwise set extend power to 0
                 arm.setArmExtendPower(0);
             }
 
