@@ -47,14 +47,6 @@ public class Arm {
         armExtend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armExtend.setTargetPosition(0);
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        armRotate.setTargetPosition(50);
-        CommandScheduler.getInstance().schedule(
-                new SequentialCommandGroup(
-                        new WaitCommand(1000),
-                        new InstantCommand(() -> armExtend.setTargetPosition(3500))
-                )
-        );
     }
 
     public void update() {

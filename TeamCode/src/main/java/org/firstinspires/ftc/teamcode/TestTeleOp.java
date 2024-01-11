@@ -107,7 +107,7 @@ public class TestTeleOp extends LinearOpMode {
                 rightGrabber.rightGrabberSetPos(0.18);
             }
             else {
-                rightGrabber.rightGrabberSetPos(0.35);
+                rightGrabber.rightGrabberSetPos(0.35); //closed
             }
 
             //Hang
