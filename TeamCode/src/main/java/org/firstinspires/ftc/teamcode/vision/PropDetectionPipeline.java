@@ -16,10 +16,10 @@ import java.util.ArrayList;
 public class PropDetectionPipeline extends OpenCvPipeline {
     private Alliance alliance;
 
-    public static double rect0x = 0.15;
-    public static double rect0y = 0.7;
-    public static double rect1x = 0.55;
-    public static double rect1y = 0.7;
+    public static double rect0x = 0.27;
+    public static double rect0y = 0.45;
+    public static double rect1x = 0.7;
+    public static double rect1y = 0.23;
     public static double rect2x = 0.95;
     public static double rect2y = 0.7;
 
@@ -29,9 +29,9 @@ public class PropDetectionPipeline extends OpenCvPipeline {
     public static double redHighH1 = 20;
     public static double redLowH2 = 150;
     public static double redHighH2 = 180;
-    private static Rect rect0 = getRect(rect0x, rect0y, 50, 50, 640, 360);
-    private static Rect rect1 = getRect(rect1x, rect1y, 50, 50, 640, 360);
-    private static Rect rect2 = getRect(rect2x, rect2y, 50, 50, 640, 360);
+    private Rect rect0 = getRect(rect0x, rect0y, 150, 150, 640, 360);
+    private Rect rect1 = getRect(rect1x, rect1y, 150, 150, 640, 360);
+    //private Rect rect2 = getRect(rect2x, rect2y, 80, 80, 640, 360);
     private Mat subMat0, subMat1, subMat2;
     public double average0, average1, average2;
     private double max;
@@ -49,6 +49,9 @@ public class PropDetectionPipeline extends OpenCvPipeline {
     }
     @Override
     public Mat processFrame(Mat input) {
+        rect0 = getRect(rect0x, rect0y, 150, 150, 640, 360);
+        rect1 = getRect(rect1x, rect1y, 150, 150, 640, 360);
+//        rect2 = getRect(rect2x, rect2y, 50, 50, 640, 360);
         Mat mat = new Mat();
 
         //mat turns into HSV values
@@ -109,22 +112,22 @@ public class PropDetectionPipeline extends OpenCvPipeline {
 
         Imgproc.rectangle(scaledThresh, rect0, new Scalar(255, 255, 255), 2);
         Imgproc.rectangle(scaledThresh, rect1, new Scalar(255, 255, 255), 2);
-        Imgproc.rectangle(scaledThresh, rect2, new Scalar(255, 255, 255), 2);
+//        Imgproc.rectangle(scaledThresh, rect2, new Scalar(255, 255, 255), 2);
 
         // create submats for 3 detection areas
         subMat0 = scaledThresh.submat(rect0);
         subMat1 = scaledThresh.submat(rect1);
-        subMat2 = scaledThresh.submat(rect2);
+//        subMat2 = scaledThresh.submat(rect2);
 
         // get average values of each submat
         average0 = Core.mean(subMat0).val[0];
         average1 = Core.mean(subMat1).val[0];
-        average2 = Core.mean(subMat2).val[0];
+//        average2 = Core.mean(subMat2).val[0];
 
         max = Math.max(Math.max(average0, average1), average2);
-        if(max == average0) {
+        if(85 < average0) {
             position = 0;
-        } else if(max == average1) {
+        } else if(85 < average1) {
             position = 1;
         } else {
             position = 2;

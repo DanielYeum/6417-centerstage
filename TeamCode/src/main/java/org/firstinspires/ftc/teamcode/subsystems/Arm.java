@@ -42,10 +42,10 @@ public class Arm {
         armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         armExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        armExtend.setPower(0);
+        armExtend.setPower(0.6);
         armExtend.setDirection(DcMotorSimple.Direction.FORWARD);
         armExtend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armExtend.setTargetPosition(0);
+        armExtend.setTargetPosition(2200);
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 

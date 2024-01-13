@@ -14,15 +14,14 @@ import org.firstinspires.ftc.teamcode.subsystems.Wrist;
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
     public static int armRotateOuttakePos = 1400;
-    public static double wristOuttakePos = 0;
-    public static int hangUp = 1400;
-    public static int hangDown = 1400;
+    public static int hangUp = 3620;
+    public static int hangDown = -250;
+    public static int armExtendIntakePos = 100;
 
 
     Arm arm;
     Drivetrain drivetrain;
-    Grabber leftGrabber;
-    Grabber rightGrabber;
+    Grabber grabber;
     Wrist wrist;
 
     double leftVertControl;
@@ -37,12 +36,10 @@ public class TestTeleOp extends LinearOpMode {
 
         drivetrain = new Drivetrain(hardwareMap);
         arm = new Arm(hardwareMap);
-        leftGrabber = new Grabber(hardwareMap);
-        rightGrabber = new Grabber(hardwareMap);
+        grabber = new Grabber(hardwareMap);
         wrist = new Wrist(hardwareMap);
 
-        leftGrabber.init();
-        rightGrabber.init();
+        grabber.init();
         wrist.init();
         arm.init();
 
@@ -68,57 +65,56 @@ public class TestTeleOp extends LinearOpMode {
 
             drivetrain.drive(leftHorzControl, leftVertControl, rotate);
 
-
             // DRIVE METHODS
 
             //Intake position
             if(gamepad1.x) { //square
-                wrist.wristSetPos(0.5); //ground level
+                wrist.wristSetPos(Wrist.intakePos); //ground level
                 arm.armRotateTargetPos = 0;
             }
 
             //home position with wrist up
             if (gamepad2.a) { //X button
-                arm.armRotateTargetPos = 200;
-                wrist.wristSetPos(0.1);
+                arm.armRotateTargetPos = 0;
+                wrist.wristSetPos(wrist.depositPos);
             }
 
             //Makes the arm parallel to the ground
             if (gamepad2.b) { //circle
                 arm.armRotateTargetPos = 700;
-                wrist.wristSetPos(0.1);
+                wrist.wristSetPos(wrist.depositPos);
             }
 
             //Positioning the arm to put pixels on the board
             if (gamepad2.y) { //triangle
                 arm.armRotateTargetPos = armRotateOuttakePos;
-                wrist.wristSetPos(wristOuttakePos);
+                wrist.wristSetPos(wrist.depositPos);
 
             }
             //the grabbers are closed until the buttons are pushed
-            if (gamepad2.left_bumper) {
-                leftGrabber.leftGrabberSetPos(0.75);
+            if (gamepad1.left_bumper) {
+                grabber.leftGrabberSetPos(0.75);
             }
             else {
-                leftGrabber.leftGrabberSetPos(0.58); //closed
+                grabber.leftGrabberSetPos(0.58); //closed
             }
 
-            if (gamepad2.right_bumper) {
-                rightGrabber.rightGrabberSetPos(0.18);
+            if (gamepad1.right_bumper) {
+                grabber.rightGrabberSetPos(0.8);
             }
             else {
-                rightGrabber.rightGrabberSetPos(0.35); //closed
+                grabber.rightGrabberSetPos(1); //closed
             }
 
             //Hang
             if(gamepad1.y) { //triangle
-                wrist.wristSetPos(0.25);
-                arm.armRotateTargetPos = 1300;
+                wrist.wristSetPos(Wrist.depositPos);
+                arm.armRotateTargetPos = 940;
                 arm.autoArmExtend(0.6, hangUp);
             }
             if (gamepad1.b) { //circle
                 arm.autoArmExtend(0.3, hangDown);
-                arm.armRotateTargetPos = 1000;
+                arm.armRotateTargetPos = 940;
                 // EXTEND ENCODER NOT WORKING
 //                arm.autoArmExtend(0.6, 350);
             }
@@ -128,13 +124,13 @@ public class TestTeleOp extends LinearOpMode {
             }
 
             // MANUAL EXTENSION
-            if(Math.abs(gamepad2.left_stick_y) > 0.1) {
-                // if joystick is being used, set extend power to joystick y
-                arm.setArmExtendPower(-gamepad2.left_stick_y);
-            } else {
-                // otherwise set extend power to 0
-                arm.setArmExtendPower(0);
-            }
+//            if(Math.abs(gamepad2.left_stick_y) > 0.1) {
+//                // if joystick is being used, set extend power to joystick y
+//                arm.setArmExtendPower(-gamepad2.left_stick_y);
+//            } else {
+//                // otherwise set extend power to 0
+//                arm.setArmExtendPower(0);
+//            }
 
             arm.update();
 
