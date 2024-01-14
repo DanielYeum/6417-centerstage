@@ -127,7 +127,7 @@ public class PropDetectionPipeline extends OpenCvPipeline {
         max = Math.max(Math.max(average0, average1), average2);
         if(85 < average0) {
             position = 0;
-        } else if(85 < average1) {
+        } else if(60 < average1) {
             position = 1;
         } else {
             position = 2;

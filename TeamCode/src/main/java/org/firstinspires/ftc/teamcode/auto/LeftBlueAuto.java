@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.CVMaster;
 
 @Config
-@Autonomous(name = "red auto")
-public class RedAuto extends LinearOpMode {
+@Autonomous(name = "left blue auto")
+public class LeftBlueAuto extends LinearOpMode {
     Drivetrain drivetrain;
     Arm arm;
     Grabber rightGrabber;
@@ -41,7 +41,7 @@ public class RedAuto extends LinearOpMode {
         wrist = new Wrist(hardwareMap);
         arm = new Arm(hardwareMap);
         rightGrabber = new Grabber(hardwareMap);
-        cvMaster = new CVMaster(hardwareMap, Alliance.RED);
+        cvMaster = new CVMaster(hardwareMap, Alliance.BLUE);
 
         TrajectorySequence forward = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
@@ -50,27 +50,22 @@ public class RedAuto extends LinearOpMode {
 
         TrajectorySequence center = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
-                .forward(28)
+                .forward(30)
                 .setVelConstraint(fastVelocity)
                 .back(10)
                 .build();
 
-        TrajectorySequence strafeLeft = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
-                .setVelConstraint(slowVelocity)
-                .strafeLeft(7.1)
-                .back(8)
-                .build();
-
         TrajectorySequence strafeRight = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
-                .strafeRight(6)
+                .strafeRight(7.1)
                 .back(8)
                 .build();
 
-        TrajectorySequence diagonalRight = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,Math.PI / 2))
+
+        TrajectorySequence diagonalLeft = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,Math.PI / 2))
                 .setVelConstraint(slowVelocity)
                 .forward(22)
-                .lineTo(new Vector2d(9.6, 26))
+                .lineTo(new Vector2d(-9.6, 26))
                 .back(14)
                 .build();
 
@@ -123,26 +118,19 @@ public class RedAuto extends LinearOpMode {
             telemetry.addData("position", position);
             telemetry.update();
         }
-
-
         waitForStart();
 
-
-        // drivetrain.followTrajectorySequence(setHomePosition);
-
-
         switch(position) {
-            case 0:
-                drivetrain.followTrajectorySequence(forward);
-                drivetrain.followTrajectorySequence(strafeLeft);
+            case 0: //left
+                drivetrain.followTrajectorySequence(diagonalLeft);
 
-                //drivetrain.followTrajectorySequence(outtake);
                 break;
             case 1: //center
                 drivetrain.followTrajectorySequence(center);
                 break;
-            case 2: //left
-                drivetrain.followTrajectorySequence(diagonalRight);
+            case 2: //right
+                drivetrain.followTrajectorySequence(forward);
+                drivetrain.followTrajectorySequence(strafeRight);
                 break;
         }
 

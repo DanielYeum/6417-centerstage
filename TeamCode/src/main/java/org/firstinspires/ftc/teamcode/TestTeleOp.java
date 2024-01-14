@@ -7,13 +7,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Grabber;
+import org.firstinspires.ftc.teamcode.subsystems.PlaneLauncher;
 import org.firstinspires.ftc.teamcode.subsystems.Wrist;
 
 
 @Config
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
-    public static int armRotateOuttakePos = 1400;
+    public static int armRotateOuttakePos = 1300;
     public static int hangUp = 3620;
     public static int hangDown = -250;
     public static int armExtendIntakePos = 100;
@@ -23,6 +24,7 @@ public class TestTeleOp extends LinearOpMode {
     Drivetrain drivetrain;
     Grabber grabber;
     Wrist wrist;
+    PlaneLauncher launcher;
 
     double leftVertControl;
     double leftHorzControl;
@@ -67,12 +69,7 @@ public class TestTeleOp extends LinearOpMode {
 
             // DRIVE METHODS
 
-            //Intake position
-            if(gamepad1.x) { //square
-                wrist.wristSetPos(Wrist.intakePos); //ground level
-                arm.armRotateTargetPos = 0;
-            }
-
+            //2nd driver
             //home position with wrist up
             if (gamepad2.a) { //X button
                 arm.armRotateTargetPos = 0;
@@ -89,38 +86,56 @@ public class TestTeleOp extends LinearOpMode {
             if (gamepad2.y) { //triangle
                 arm.armRotateTargetPos = armRotateOuttakePos;
                 wrist.wristSetPos(wrist.depositPos);
-
             }
             //the grabbers are closed until the buttons are pushed
-            if (gamepad1.left_bumper) {
+            if (gamepad2.left_bumper) {
                 grabber.leftGrabberSetPos(0.75);
             }
             else {
                 grabber.leftGrabberSetPos(0.58); //closed
             }
 
-            if (gamepad1.right_bumper) {
-                grabber.rightGrabberSetPos(0.8);
+            if (gamepad2.right_bumper) {
+                grabber.rightGrabberSetPos(0.7);
             }
             else {
                 grabber.rightGrabberSetPos(1); //closed
             }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //1st driver
+            //Intake position for the wrist
+            if(gamepad1.right_bumper) {
+                wrist.wristSetPos(Wrist.intakePos); //ground level
+                arm.armRotateTargetPos = 0;
+            }
+            //Extend Arm in front of the Board
+            if(gamepad1.x) { //square
+                wrist.wristSetPos(Wrist.depositPos);
+                arm.autoArmExtend(0.6, hangUp);
+            }
+            if(gamepad1.a) { //Controller X
+                wrist.wristSetPos(Wrist.depositPos);
+                arm.autoArmExtend(0.6, 2200);
+            }
             //Hang
             if(gamepad1.y) { //triangle
                 wrist.wristSetPos(Wrist.depositPos);
-                arm.armRotateTargetPos = 940;
+                arm.armRotateTargetPos = 1200;
                 arm.autoArmExtend(0.6, hangUp);
             }
             if (gamepad1.b) { //circle
                 arm.autoArmExtend(0.3, hangDown);
-                arm.armRotateTargetPos = 940;
+                arm.armRotateTargetPos = 1200;
                 // EXTEND ENCODER NOT WORKING
 //                arm.autoArmExtend(0.6, 350);
             }
-            if (gamepad1.b) { //circle
-                // EXTEND ENCODER NOT WORKING
-//                arm.autoArmExtend(0.6, 0);
+
+            if(gamepad1.left_bumper) {
+                launcher.LauncherSetPos(launcher.launcherPos);
+            }
+            else{
+                launcher.LauncherDisabled();
             }
 
             // MANUAL EXTENSION

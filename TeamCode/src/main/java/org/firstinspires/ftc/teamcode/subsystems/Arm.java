@@ -52,7 +52,19 @@ public class Arm {
     public void update() {
         armRotateCurrentPos = getArmRotatePosition();
         armRotatePower = Range.clip(armRotatePID.calculate(armRotateCurrentPos, armRotateTargetPos), -0.5, 0.5);
+
+        int armExtendError = armExtend.getCurrentPosition() - armExtend.getTargetPosition();
+
+        if(Math.abs(armExtendError) < 50 && armExtend.getCurrentPosition() > -100) {
+            stopArmExtend();
+        }
+
         setArmRotatePower(armRotatePower);
+    }
+
+    public void stopArmExtend() {
+        armExtend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armExtend.setPower(0);
     }
 
     public void autoArmRotate(double power, int targetPos) {
