@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.ServoControllerEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class PlaneLauncher {
-    public static final double launcherPos = 0.1;
+    public static final double launcherPos = 1;
 
     private CRServo launcher;
 

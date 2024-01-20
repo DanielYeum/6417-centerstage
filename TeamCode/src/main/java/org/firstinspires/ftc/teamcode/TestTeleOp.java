@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Wrist;
 @Config
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
-    public static int armRotateOuttakePos = 1300;
+    public static int armRotateOuttakePos = 1370;
     public static int hangUp = 3620;
     public static int hangDown = -250;
     public static int armExtendIntakePos = 100;
@@ -40,10 +40,12 @@ public class TestTeleOp extends LinearOpMode {
         arm = new Arm(hardwareMap);
         grabber = new Grabber(hardwareMap);
         wrist = new Wrist(hardwareMap);
+        launcher = new PlaneLauncher(hardwareMap);
 
         grabber.init();
         wrist.init();
-        arm.init();
+        arm.teleInit();
+        launcher.init();
 
 
         while(opModeInInit()) {
@@ -99,7 +101,7 @@ public class TestTeleOp extends LinearOpMode {
                 grabber.rightGrabberSetPos(0.7);
             }
             else {
-                grabber.rightGrabberSetPos(1); //closed
+                grabber.rightGrabberSetPos(1); //right Grabber closed
             }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,15 +129,13 @@ public class TestTeleOp extends LinearOpMode {
             if (gamepad1.b) { //circle
                 arm.autoArmExtend(0.3, hangDown);
                 arm.armRotateTargetPos = 1200;
-                // EXTEND ENCODER NOT WORKING
-//                arm.autoArmExtend(0.6, 350);
             }
 
             if(gamepad1.left_bumper) {
-                launcher.LauncherSetPos(launcher.launcherPos);
+                launcher.LauncherSetPower(launcher.launcherPos);
             }
             else{
-                launcher.LauncherDisabled();
+                launcher.LauncherSetPower(0);
             }
 
             // MANUAL EXTENSION

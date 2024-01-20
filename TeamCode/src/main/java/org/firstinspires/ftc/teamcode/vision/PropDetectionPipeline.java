@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class PropDetectionPipeline extends OpenCvPipeline {
     private Alliance alliance;
 
-    public static double rect0x = 0.27;
+    public static double rect0x = 0.13;
     public static double rect0y = 0.45;
-    public static double rect1x = 0.7;
+    public static double rect1x = 0.57;
     public static double rect1y = 0.23;
     public static double rect2x = 0.95;
     public static double rect2y = 0.7;
@@ -127,7 +127,7 @@ public class PropDetectionPipeline extends OpenCvPipeline {
         max = Math.max(Math.max(average0, average1), average2);
         if(85 < average0) {
             position = 0;
-        } else if(60 < average1) {
+        } else if(75 < average1) {
             position = 1;
         } else {
             position = 2;

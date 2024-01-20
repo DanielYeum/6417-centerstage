@@ -52,11 +52,12 @@ public class RightBlueAuto extends LinearOpMode {
                 .setVelConstraint(slowVelocity)
                 .forward(30)
                 .setVelConstraint(fastVelocity)
-                .back(10)
+                .back(11)
                 .build();
 
         TrajectorySequence strafeLeft = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
+                .forward(forwardDistance - 1)
                 .strafeLeft(7.1)
                 .back(8)
                 .build();
@@ -69,15 +70,6 @@ public class RightBlueAuto extends LinearOpMode {
                 .back(14)
                 .build();
 
-        TrajectorySequence turnRight = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
-                .setVelConstraint(slowVelocity)
-                .turn(Math.toRadians(turnRightDeg))
-                .build();
-
-        TrajectorySequence turnLeft = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
-                .setVelConstraint(slowVelocity)
-                .turn(Math.toRadians(turnLeftDeg))
-                .build();
 
 //        TrajectorySequence setHomePosition = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
 //                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -122,7 +114,6 @@ public class RightBlueAuto extends LinearOpMode {
 
         switch(position) {
             case 0:
-                drivetrain.followTrajectorySequence(forward);
                 drivetrain.followTrajectorySequence(strafeLeft);
 
                 //drivetrain.followTrajectorySequence(outtake);

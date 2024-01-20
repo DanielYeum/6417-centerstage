@@ -49,6 +49,20 @@ public class Arm {
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    public void teleInit() {
+        armRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        armRotate.setPower(0);
+        armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
+        armRotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        armExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        armExtend.setPower(0.6);
+        armExtend.setDirection(DcMotorSimple.Direction.FORWARD);
+        armExtend.setTargetPosition(2200);
+        armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
     public void update() {
         armRotateCurrentPos = getArmRotatePosition();
         armRotatePower = Range.clip(armRotatePID.calculate(armRotateCurrentPos, armRotateTargetPos), -0.5, 0.5);
