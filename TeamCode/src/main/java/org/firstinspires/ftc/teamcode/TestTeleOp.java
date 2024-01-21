@@ -120,7 +120,8 @@ public class TestTeleOp extends LinearOpMode {
                 wrist.wristSetPos(Wrist.depositPos);
                 arm.autoArmExtend(0.6, 2200);
             }
-            //Hang
+
+            /////////////////Hang/////////////////
             if(gamepad1.y) { //triangle
                 wrist.wristSetPos(Wrist.depositPos);
                 arm.armRotateTargetPos = 1200;
@@ -157,33 +158,4 @@ public class TestTeleOp extends LinearOpMode {
             telemetry.update();
         }
     }
-
-    //Calculates for Drivetrain
-//    public void clipBotMecanumDrive ( double vert, double horz, double rotate, double driveSpeed){
-//        Vector2d input = new Vector2d(vert, horz);
-//        double inputMag = Math.sqrt(vert*vert + horz*horz);
-//
-//        double frDrive = (vert + horz + rotate);
-//        double flDrive = (vert - horz - rotate);
-//        double brDrive = (vert - horz + rotate);
-//        double blDrive = (vert + horz - rotate);
-//
-//        // finding maximum drive for division below
-//        double max = Math.abs(Math.max(Math.abs(frDrive), Math.max(Math.abs(flDrive), Math.max(Math.abs(brDrive), Math.abs(blDrive)))));
-//
-//        // power calculations
-//        if (Math.abs(vert) > .1 || Math.abs(horz) > .1 || Math.abs(rotate) > .1) {
-//            leftFront.setPower(inputMag * driveSpeed * flDrive / max);
-//            leftBack.setPower(inputMag * driveSpeed * blDrive / max);
-//            rightFront.setPower(inputMag * driveSpeed * frDrive / max);
-//            rightBack.setPower(inputMag * driveSpeed * brDrive / max);
-//        } else {
-//            leftFront.setPower(0);
-//            leftBack.setPower(0);
-//            rightFront.setPower(0);
-//            rightBack.setPower(0);
-//
-//
-//        }
-//    }
 }
