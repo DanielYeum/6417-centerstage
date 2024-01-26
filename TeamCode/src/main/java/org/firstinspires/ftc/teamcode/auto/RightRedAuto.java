@@ -71,11 +71,12 @@ public class RightRedAuto extends LinearOpMode {
 
         TrajectorySequence turnRight = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
-                .turn(Math.toRadians(turnRightDeg))
                 .UNSTABLE_addTemporalMarkerOffset(2, () -> {
                     wrist.wristSetPos(wrist.intakePos);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(4, () -> {
+                .waitSeconds(3)
+                .turn(Math.toRadians(turnRightDeg))
+                .UNSTABLE_addTemporalMarkerOffset(5, () -> {
                     grabber.leftGrabberSetPos(0.75);
                 })
                 .waitSeconds(6)
