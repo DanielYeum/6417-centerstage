@@ -15,15 +15,18 @@ public class CVMaster {
     public PropDetectionPipeline pipeline;
     private HardwareMap hardwareMap;
 
+    boolean isRight;
 
-    public CVMaster(HardwareMap hardwareMap, Alliance alliance) {
+
+    public CVMaster(HardwareMap hardwareMap, Alliance alliance, boolean isRight) {
         this.hardwareMap = hardwareMap;
         this.webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"));
         this.alliance = alliance;
+        this.isRight = isRight;
     }
 
     public void detectProp() {
-        pipeline = new PropDetectionPipeline(640, 360, alliance);
+        pipeline = new PropDetectionPipeline(640, 360, alliance, isRight);
         webcam.setPipeline(pipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {

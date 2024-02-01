@@ -21,14 +21,16 @@ import org.firstinspires.ftc.teamcode.vision.CVMaster;
 public class LeftBlueAuto extends LinearOpMode {
     Drivetrain drivetrain;
     Arm arm;
-    Grabber rightGrabber;
+    Grabber grabber;
     Wrist wrist;
     CVMaster cvMaster;
     int position;
 
-    public static double forwardDistance = 21;
-    public static double turnRightDeg = -45; // degrees
-    public static double turnLeftDeg = 45; // degrees
+    public static double forwardDistance = 16; //21 before
+    public static double forwardCenter = 6; //21 before
+    public static double forwardRight = 9; //9 init
+    public static double turnLeftDeg = 50; // degrees
+    public static double turnRightDeg = -70; // degrees
 
     TrajectoryVelocityConstraint slowVelocity = SampleMecanumDrive.getVelocityConstraint(15, Math.toRadians(180), 13);
     TrajectoryVelocityConstraint fastVelocity = SampleMecanumDrive.getVelocityConstraint(30, Math.toRadians(180), 13);
@@ -40,8 +42,8 @@ public class LeftBlueAuto extends LinearOpMode {
         drivetrain = new Drivetrain(hardwareMap);
         wrist = new Wrist(hardwareMap);
         arm = new Arm(hardwareMap);
-        rightGrabber = new Grabber(hardwareMap);
-        cvMaster = new CVMaster(hardwareMap, Alliance.BLUE);
+        grabber = new Grabber(hardwareMap);
+        cvMaster = new CVMaster(hardwareMap, Alliance.BLUE, false);
 
         TrajectorySequence forward = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
@@ -50,33 +52,55 @@ public class LeftBlueAuto extends LinearOpMode {
 
         TrajectorySequence center = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
-                .forward(30)
-                .setVelConstraint(fastVelocity)
-                .back(10)
-                .build();
-
-        TrajectorySequence strafeRight = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
-                .setVelConstraint(slowVelocity)
-                .strafeRight(7.1)
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    wrist.wristSetPos(wrist.midPos);
+                })
+                .waitSeconds(3)
+                .forward(forwardCenter)
+                .UNSTABLE_addTemporalMarkerOffset(3, () -> {
+                    wrist.wristSetPos(wrist.intakePos);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(4, () -> {
+                    grabber.rightGrabberSetPos(0.7);
+                })
+                .waitSeconds(5)
                 .back(8)
                 .build();
 
 
-        TrajectorySequence diagonalLeft = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,Math.PI / 2))
+        TrajectorySequence turnLeft = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
-                .forward(22)
-                .lineTo(new Vector2d(-9.6, 26))
-                .back(14)
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    wrist.wristSetPos(wrist.midPos);
+                })
+                .waitSeconds(2)
+                .turn(Math.toRadians(turnLeftDeg))
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    wrist.wristSetPos(wrist.intakePos);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3, () -> {
+                    grabber.rightGrabberSetPos(0.7);
+                })
+                .waitSeconds(4)
+                .back(8)
                 .build();
 
         TrajectorySequence turnRight = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .setVelConstraint(slowVelocity)
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    wrist.wristSetPos(wrist.midPos);
+                })
+                .waitSeconds(2)
                 .turn(Math.toRadians(turnRightDeg))
-                .build();
-
-        TrajectorySequence turnLeft = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
-                .setVelConstraint(slowVelocity)
-                .turn(Math.toRadians(turnLeftDeg))
+                .forward(forwardRight)
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    wrist.wristSetPos(wrist.intakePos);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3, () -> {
+                    grabber.rightGrabberSetPos(0.7);
+                })
+                .waitSeconds(4)
+                .back(8)
                 .build();
 
 //        TrajectorySequence setHomePosition = drivetrain.trajectorySequenceBuilder(new Pose2d(0,0,0))
@@ -107,6 +131,10 @@ public class LeftBlueAuto extends LinearOpMode {
 //                .build();
 
         cvMaster.detectProp();
+        grabber.init();
+        wrist.init();
+        arm.init();
+
 
         while(!isStopRequested() && opModeInInit()) {
             position = cvMaster.pipeline.position;
@@ -119,22 +147,23 @@ public class LeftBlueAuto extends LinearOpMode {
             telemetry.update();
         }
         waitForStart();
+        arm.initExtend();
+        wrist.initOuttake();
 
         switch(position) {
             case 0: //left
-                drivetrain.followTrajectorySequence(diagonalLeft);
-
+                drivetrain.followTrajectorySequence(forward);
+                drivetrain.followTrajectorySequence(turnLeft);
                 break;
             case 1: //center
+                drivetrain.followTrajectorySequence(forward);
                 drivetrain.followTrajectorySequence(center);
                 break;
             case 2: //right
                 drivetrain.followTrajectorySequence(forward);
-                drivetrain.followTrajectorySequence(strafeRight);
+                drivetrain.followTrajectorySequence(turnRight);
                 break;
         }
-
-        // drivetrain.followTrajectorySequence(resetPosition);
 
         telemetry.update();
     }

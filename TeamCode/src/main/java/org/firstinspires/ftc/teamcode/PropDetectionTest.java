@@ -7,17 +7,18 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.states.Alliance;
 import org.firstinspires.ftc.teamcode.vision.CVMaster;
 
+
 @Autonomous(name="prop detection test", group="Linear Opmode")
 public class PropDetectionTest extends LinearOpMode {
     CVMaster cvMaster;
-    Alliance alliance = Alliance.BLUE;
+    Alliance alliance = Alliance.RED;
 
     Gamepad lastGamepad1 = new Gamepad();
     Gamepad lastGamepad2 = new Gamepad();
 
     @Override
     public void runOpMode() {
-        cvMaster = new CVMaster(hardwareMap, Alliance.BLUE);
+        cvMaster = new CVMaster(hardwareMap, alliance, false);
         cvMaster.detectProp();
         // Init
         while (opModeInInit()) {

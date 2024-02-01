@@ -10,8 +10,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class Wrist {
-    public static final double depositPos = 0.87;
+    public static final double depositPos = 0.89;
     public static final double intakePos = 0.17;
+    public static final double midPos = 0.25;
+
+
     // 0.65 is down (intake position)
     // 0.12 is deposit position
     private Servo wrist;
@@ -20,12 +23,12 @@ public class Wrist {
 
     public Wrist(HardwareMap hardwareMap) {
         wrist = hardwareMap.get(Servo.class, "wrist"); //1 -> down
-
-
+    }
+    public void initOuttake(){
+        wrist.setPosition(depositPos);
     }
     public void init() {
         wristController = (ServoControllerEx) wrist.getController();
-        wrist.setPosition(depositPos);
     }
 
     public void wristSetPos(double pos){

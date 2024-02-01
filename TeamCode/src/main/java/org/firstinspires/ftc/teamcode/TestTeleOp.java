@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Wrist;
 @Config
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
-    public static int armRotateOuttakePos = 1370;
+    public static int armRotateOuttakePos = 1380;
     public static int hangUp = 3620;
     public static int hangDown = -250;
     public static int armExtendIntakePos = 100;
@@ -75,7 +75,7 @@ public class TestTeleOp extends LinearOpMode {
             //home position with wrist up
             if (gamepad2.a) { //X button
                 arm.armRotateTargetPos = 0;
-                wrist.wristSetPos(wrist.depositPos);
+                wrist.wristSetPos(wrist.depositPos-0.1);
             }
 
             //Makes the arm parallel to the ground
@@ -94,7 +94,7 @@ public class TestTeleOp extends LinearOpMode {
                 grabber.leftGrabberSetPos(0.75);
             }
             else {
-                grabber.leftGrabberSetPos(0.58); //closed
+                grabber.leftGrabberSetPos(0.5); //closed
             }
 
             if (gamepad2.right_bumper) {
@@ -139,14 +139,15 @@ public class TestTeleOp extends LinearOpMode {
                 launcher.LauncherSetPower(0);
             }
 
-            // MANUAL EXTENSION
-//            if(Math.abs(gamepad2.left_stick_y) > 0.1) {
-//                // if joystick is being used, set extend power to joystick y
-//                arm.setArmExtendPower(-gamepad2.left_stick_y);
-//            } else {
-//                // otherwise set extend power to 0
-//                arm.setArmExtendPower(0);
-//            }
+            //MANUAL ROTATION
+            if(Math.abs(gamepad1.left_trigger) > 0.1) {
+                // if trigger is being used, set rotate power
+                arm.setArmRotatePower(gamepad1.left_trigger);
+            }
+            else {
+                // otherwise set extend power to 0
+                arm.setArmRotatePower(0);
+            }
 
             arm.update();
 

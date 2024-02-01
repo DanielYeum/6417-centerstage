@@ -45,6 +45,8 @@ public class Arm {
         armExtend.setPower(0.6);
         armExtend.setDirection(DcMotorSimple.Direction.FORWARD);
         armExtend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public void initExtend() {
         armExtend.setTargetPosition(2200);
         armExtend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
@@ -65,7 +67,7 @@ public class Arm {
 
     public void update() {
         armRotateCurrentPos = getArmRotatePosition();
-        armRotatePower = Range.clip(armRotatePID.calculate(armRotateCurrentPos, armRotateTargetPos), -0.5, 0.5);
+        armRotatePower = Range.clip(armRotatePID.calculate(armRotateCurrentPos, armRotateTargetPos), -0.6, 0.75);
 
         int armExtendError = armExtend.getCurrentPosition() - armExtend.getTargetPosition();
 
@@ -98,6 +100,7 @@ public class Arm {
     }
 
     public void setArmRotatePower(double power) {
+        armRotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armRotate.setPower(power);
     }
 
@@ -105,6 +108,7 @@ public class Arm {
         armExtend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armExtend.setPower(power);
     }
+
 
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("arm rotate current pos", armRotate.getCurrentPosition());

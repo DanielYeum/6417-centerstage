@@ -16,21 +16,20 @@ import java.util.ArrayList;
 public class PropDetectionPipeline extends OpenCvPipeline {
     private Alliance alliance;
 
-    public static double rect0x = 0.13;
-    public static double rect0y = 0.45;
-    public static double rect1x = 0.57;
-    public static double rect1y = 0.23;
-    public static double rect2x = 0.95;
-    public static double rect2y = 0.7;
+    public static double rect0xRight = 0.13;
+    public static double rect0yRight = 0.45;
+    public static double rect1xRight = 0.57;
+    public static double rect1yRight = 0.23;
 
+    public static double rectDeltaX = 0.3;
     public static double blueLowH = 80;
     public static double blueHighH = 140;
     public static double redLowH1 = 0;
     public static double redHighH1 = 20;
     public static double redLowH2 = 150;
     public static double redHighH2 = 180;
-    private Rect rect0 = getRect(rect0x, rect0y, 150, 150, 640, 360);
-    private Rect rect1 = getRect(rect1x, rect1y, 150, 150, 640, 360);
+    private Rect rect0;
+    private Rect rect1;
     //private Rect rect2 = getRect(rect2x, rect2y, 80, 80, 640, 360);
     private Mat subMat0, subMat1, subMat2;
     public double average0, average1, average2;
@@ -40,17 +39,23 @@ public class PropDetectionPipeline extends OpenCvPipeline {
     public static double strictHighS = 255;
     public int position = 1;
 
-    public PropDetectionPipeline(int camWidth, int camHeight, Alliance alliance) {
+    public PropDetectionPipeline(int camWidth, int camHeight, Alliance alliance, boolean isRight) {
         // initialize frameList
         frameList = new ArrayList<double[]>();
 
         // set strict HSV values based on alliance
         this.alliance = alliance;
+
+        if(isRight) {
+            rect0 = getRect(rect0xRight, rect0yRight, 150, 150, 640, 360);
+            rect1 = getRect(rect1xRight, rect1yRight, 150, 150, 640, 360);
+        } else {
+            rect0 = getRect(rect0xRight + rectDeltaX, rect0yRight, 150, 150, 640, 360);
+            rect1 = getRect(rect1xRight + rectDeltaX, rect1yRight, 150, 150, 640, 360);
+        }
     }
     @Override
     public Mat processFrame(Mat input) {
-        rect0 = getRect(rect0x, rect0y, 150, 150, 640, 360);
-        rect1 = getRect(rect1x, rect1y, 150, 150, 640, 360);
 //        rect2 = getRect(rect2x, rect2y, 50, 50, 640, 360);
         Mat mat = new Mat();
 

@@ -24,7 +24,7 @@ public class Grabber {
     public void init() {
         leftController = (ServoControllerEx) leftGrabber.getController();
         rightController = (ServoControllerEx) rightGrabber.getController();
-        rightController.setServoPwmDisable(rightGrabber.getPortNumber());
+        rightGrabber.setPosition(1);
         leftGrabber.setPosition(0.5);
     }
 
