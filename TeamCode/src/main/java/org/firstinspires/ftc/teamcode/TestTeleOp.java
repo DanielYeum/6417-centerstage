@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Wrist;
 @Config
 @TeleOp(name = "TestTeleOp",group = "TeleOp")
 public class TestTeleOp extends LinearOpMode {
-    public static int armRotateOuttakePos = 1380;
+    public static int armRotateOuttakePos = 1450;
     public static int hangUp = 3620;
     public static int hangDown = -250;
     public static int armExtendIntakePos = 100;
@@ -98,10 +98,10 @@ public class TestTeleOp extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper) {
-                grabber.rightGrabberSetPos(0.7);
+                grabber.rightGrabberSetPos(0); //0.7
             }
             else {
-                grabber.rightGrabberSetPos(1); //right Grabber closed
+                grabber.rightGrabberSetPos(0.25); //right Grabber closed 1
             }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
