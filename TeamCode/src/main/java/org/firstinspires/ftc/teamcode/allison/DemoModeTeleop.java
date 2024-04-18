@@ -6,7 +6,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.Grabber;
+import org.firstinspires.ftc.teamcode.subsystems.PlaneLauncher;
+import org.firstinspires.ftc.teamcode.subsystems.Wrist;
+
+
+// to do: set default position to wrist up after init
 
 
 @Config
@@ -36,13 +43,14 @@ public class DemoModeTeleop extends LinearOpMode {
             rotate = Math.pow(-gamepad1.right_stick_x, 3);
 
             if(gamepad1.right_trigger > 0.4) {
-                Drivetrain.drivePower = 0.15; //prev .3
+                Drivetrain.drivePower = 0.2; //prev .3
             }
             else {
-                Drivetrain.drivePower = 0.3; // prev .6
+                Drivetrain.drivePower = 0.4; // prev .6
             }
 
             drivetrain.drive(leftHorzControl, leftVertControl, rotate);
+
         }
     }
 
