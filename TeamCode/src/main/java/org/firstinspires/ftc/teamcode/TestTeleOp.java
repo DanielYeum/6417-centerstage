@@ -60,6 +60,7 @@ public class TestTeleOp extends LinearOpMode {
             leftHorzControl = Math.pow(gamepad1.left_stick_x, 3);
             rotate = Math.pow(-gamepad1.right_stick_x, 3);
 
+            //Robot moves slower
             if(gamepad1.right_trigger > 0.4) {
                 Drivetrain.drivePower = 0.3;
             }
@@ -72,14 +73,17 @@ public class TestTeleOp extends LinearOpMode {
             // DRIVE METHODS
 
             //2nd driver
-            //home position with wrist up
-            if (gamepad2.a) { //X button
-                arm.armRotateTargetPos = 0;
-                wrist.wristSetPos(wrist.depositPos-0.1);
-            }
+            /*
+            X - arm parallel
+            triangle - outtake
+            left bumper - left claw
+            right bumper - right claw
+            right trigger - arm extends manually
+            left trigger - arm retracts manually
+             */
 
             //Makes the arm parallel to the ground
-            if (gamepad2.b) { //circle
+            if (gamepad2.a) { //button X
                 arm.armRotateTargetPos = 700;
                 wrist.wristSetPos(wrist.depositPos);
             }
@@ -104,42 +108,55 @@ public class TestTeleOp extends LinearOpMode {
                 grabber.rightGrabberSetPos(0.25); //right Grabber closed 1
             }
 
+            if(Math.abs(gamepad2.right_stick_y) > 0.1 && gamepad2.right_stick_button) {
+                arm.setArmExtendPower(-gamepad2.right_stick_y);
+            } else {
+                arm.setArmExtendPower(0);
+            }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //1st driver
-            //Intake position for the wrist
-            if(gamepad1.right_bumper) {
+
+            /*
+            joysticks - driving
+            left bumper - wrist down
+            right bumper - wrist up
+            dpad up - hang up
+            dpad down - hang down
+            options - plane launcher
+            left trigger - arm rotates manually
+             */
+            //home position w/ wrist down
+            if(gamepad1.left_bumper) {
                 wrist.wristSetPos(Wrist.intakePos); //ground level
                 arm.armRotateTargetPos = 0;
             }
-            //Extend Arm in front of the Board
-            if(gamepad1.x) { //square
-                wrist.wristSetPos(Wrist.depositPos);
-                arm.autoArmExtend(0.6, hangUp);
-            }
-            if(gamepad1.a) { //Controller X
-                wrist.wristSetPos(Wrist.depositPos);
-                arm.autoArmExtend(0.6, 2200);
+
+            //home position w/ wrist up
+            if (gamepad1.right_bumper) { //X button
+                arm.armRotateTargetPos = 0;
+                wrist.wristSetPos(wrist.depositPos-0.1);
             }
 
             /////////////////Hang/////////////////
-            if(gamepad1.y) { //triangle
+            if(gamepad1.dpad_up) {
                 wrist.wristSetPos(Wrist.depositPos);
                 arm.armRotateTargetPos = 1200;
                 arm.autoArmExtend(0.6, hangUp);
             }
-            if (gamepad1.b) { //circle
+            if (gamepad1.dpad_down) { //circle
                 arm.autoArmExtend(0.3, hangDown);
                 arm.armRotateTargetPos = 1200;
             }
 
-            if(gamepad1.left_bumper) {
+            if(gamepad1.options) {
                 launcher.LauncherSetPower(launcher.launcherPos);
             }
             else{
                 launcher.LauncherSetPower(0);
             }
 
-            //MANUAL ROTATION
+            //MANUAL ROTATION left trigger
             if(Math.abs(gamepad1.left_trigger) > 0.1) {
                 // if trigger is being used, set rotate power
                 arm.setArmRotatePower(gamepad1.left_trigger);
@@ -156,6 +173,8 @@ public class TestTeleOp extends LinearOpMode {
             telemetry.addData("Rotation power:", power);
             telemetry.addData("gamepad1.b:", gamepad1.b);
             telemetry.addData("gamepad2.y:", gamepad2.y);
+            telemetry.addData("gamepad2.left trigger:", gamepad2.left_trigger);
+            telemetry.addData("gamepad2.right trigger:", gamepad2.right_trigger);
             telemetry.update();
         }
     }
