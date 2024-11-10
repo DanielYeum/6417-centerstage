@@ -21,6 +21,7 @@ public class PlaneLauncher {
         launcher.setPower(0);
     }
 
+
     public void LauncherSetPower(double power){
         launcher.setPower(power);
     }
